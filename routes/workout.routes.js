@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const Workout = require('../models/Workout.model');
 
-// CREATE
+
+// CREATE POST
 router.post("/", (req, res) => {
 	Workout.create(req.body)
 		.then((workout) => {

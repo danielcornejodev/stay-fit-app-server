@@ -28,6 +28,11 @@ module.exports = (app) => {
     })
   );
 
+  // app.use(
+  //   cors(true)
+  // );
+
+
   // In development environment the app logs
   app.use(logger("dev"));
 

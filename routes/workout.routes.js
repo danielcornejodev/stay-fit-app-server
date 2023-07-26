@@ -1,0 +1,61 @@
+const express = require("express");
+const router = express.Router();
+const Workout = require('../models/Workout.model');
+
+// CREATE
+router.post("/", (req, res) => {
+	Workout.create(req.body)
+		.then((workout) => {
+			res.json({ success: true, workout });
+		})
+		.catch((err) => {
+			res.json({ success: false, error: err });
+		});
+});
+
+// READ
+router.get("/", (req, res) => {
+	Workout.find()
+		.populate("exercises")
+		.then((workouts) => {
+			res.json({ success: true, workouts });
+		})
+		.catch((err) => {
+			res.json({ success: false, error: err });
+		});
+});
+
+// READ
+router.get("/:workoutId", (req, res) => {
+	Workout.findById(req.params.workoutId)
+		.then((workout) => {
+			res.json({ success: true, workout });
+		})
+		.catch((err) => {
+			res.json({ success: false, error: err });
+		});
+});
+
+// UPDATE
+router.put("/:workoutId", (req, res) => {
+	Workout.findByIdAndUpdate(req.params.workoutId, req.body, { new: true })
+		.then((workout) => {
+			res.json({ success: true, workout });
+		})
+		.catch((err) => {
+			res.json({ success: false, error: err });
+		});
+});
+
+// DELETE
+router.delete("/:workoutId", (req, res) => {
+	Workout.findByIdAndRemove(req.params.workoutId)
+		.then(() => {
+			res.json({ success: true, message: "Successfully removed Workout" });
+		})
+		.catch((err) => {
+			res.json({ success: false, error: err });
+		});
+});
+
+module.exports = router;

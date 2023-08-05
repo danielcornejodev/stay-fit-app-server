@@ -17,7 +17,6 @@ router.post("/", (req, res) => {
 // READ
 router.get("/", (req, res) => {
 	Workout.find()
-		.populate("exercises")
 		.then((workouts) => {
 			res.json({ success: true, workouts });
 		})
@@ -28,7 +27,7 @@ router.get("/", (req, res) => {
 
 // READ
 router.get("/:workoutId", (req, res) => {
-	Workout.findById(req.params.workoutId)
+	Workout.findById(req.params.workoutId).populate('exercises') //need to populate apiAexercises also
 		.then((workout) => {
 			res.json({ success: true, workout });
 		})

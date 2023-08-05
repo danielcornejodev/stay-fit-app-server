@@ -1,17 +1,30 @@
 const express = require("express");
 const router = express.Router();
 const Exercise = require("../models/Exercise.model");
+const Workout = require('../models/Workout.model');
 
-// CREATE
-router.post("/", (req, res) => {
+
+//CREATE and PUSH
+router.post("/workouts/:theID/exercises/create", (req, res) => {
 	Exercise.create(req.body)
-		.then((exercise) => {
-			res.json({ success: true, exercise });
+	.then((exercise)=>{
+		Workout.findByIdAndUpdate(req.params.theID, 
+			{$push: {exercises: exercise}}
+		)
+		.then((workout) => {
+		//   req.flash('success', 'Workout Successfully Created')
+			res.json({ success: true, workout })
 		})
 		.catch((err) => {
 			res.json({ success: false, error: err });
 		});
-});
+	})
+	.catch((err) => {
+		res.json({ success: false, error: err });
+	});
+  });
+
+
 
 // READ
 router.get("/", (req, res) => {

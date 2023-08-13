@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Workout = require('../models/Workout.model');
+const Exercise = require('../models/Exercise.model')
 
 
 // CREATE POST
@@ -49,13 +50,24 @@ router.put("/:workoutId", (req, res) => {
 
 // DELETE
 router.delete("/:workoutId", (req, res) => {
-	Workout.findByIdAndRemove(req.params.workoutId)
-		.then(() => {
-			res.json({ success: true, message: "Successfully removed Workout" });
-		})
-		.catch((err) => {
+	const workoutId = req.params.workoutId;
+  
+	// First, delete the workout itself
+	Workout.findByIdAndRemove(workoutId)
+	  .then(() => {
+		// Now, find and delete associated exercises
+		Exercise.deleteMany({ workout: workoutId })
+		  .then(() => {
+			res.json({ success: true, message: "Successfully removed Workout and associated Exercises" });
+		  })
+		  .catch((err) => {
 			res.json({ success: false, error: err });
-		});
-});
+		  });
+	  })
+	  .catch((err) => {
+		res.json({ success: false, error: err });
+	  });
+  });
+  
 
 module.exports = router;

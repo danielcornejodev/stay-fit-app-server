@@ -13,6 +13,9 @@ const cookieParser = require("cookie-parser");
 // unless the request is made from the same domain, by default express wont accept POST requests
 const cors = require("cors");
 
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+
 const FRONTEND_URL = process.env.ORIGIN || "http://localhost:3000";
 
 // Middleware configuration
@@ -30,6 +33,26 @@ module.exports = (app) => {
 
   app.use(
     cors(true)
+  );
+
+  app.use(
+    session({
+        secret: "canBeAnything",
+        resave: true,
+        saveUninitialized: false,
+        cookie: {
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
+        maxAge: 600000
+        }, // ADDED code below !!!
+        store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI
+    
+        // ttl => time to live
+        // ttl: 60 * 60 * 24 // 60sec * 60min * 24h => 1 day
+        })
+    })
   );
 
 

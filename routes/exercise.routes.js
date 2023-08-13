@@ -5,62 +5,25 @@ const Workout = require('../models/Workout.model');
 
 
 //CREATE and PUSH
+//CREATE and PUSH
 router.post("/workouts/:theID/exercises/create", (req, res) => {
-	console.log(req.body)
-	const { selectedExercise, formData } = req.body;
-
-
-  
-	if (selectedExercise) {
-		const temporaryId = selectedExercise._id;
-    
-		// Create a new exercise document with the temporary ID
-		Exercise.create({ ...selectedExercise, _id: temporaryId })
-		  .then((exercise) => {
-			const actualId = exercise._id; // The actual ID assigned by the database
-			
-			// Now exercise has an actual ID in the database
-			// You can update any references to the temporary ID with the actual ID if needed
-			// For example, update the exercise in the workout with the actual ID
-			Workout.findOneAndUpdate(
-			  { _id: req.params.theID, "exercises._id": temporaryId },
-			  { $set: { "exercises.$._id": actualId } },
-			  { new: true }
-			)
-			.then((workout) => {
-			  res.json({ success: true, workout });
-			})
-			.catch((err) => {
-			  res.json({ success: false, error: err });
-			});
-		  })
-		  .catch((err) => {
-			res.json({ success: false, error: err });
-		  });
-	} else if (formData) {
-	  // If no suggested exercise is selected, create a new exercise
-	  Exercise.create(formData)
-		.then((exercise) => {
-		  Workout.findByIdAndUpdate(
-			req.params.theID,
-			{ $push: { exercises: exercise } }
-		  )
-			.then((workout) => {
-			  res.json({ success: true, workout });
-			})
-			.catch((err) => {
-			  res.json({ success: false, error: err });
-			});
+	Exercise.create(req.body)
+	.then((exercise)=>{
+		Workout.findByIdAndUpdate(req.params.theID, 
+			{$push: {exercises: exercise}}
+		)
+		.then((workout) => {
+		//   req.flash('success', 'Workout Successfully Created')
+			res.json({ success: true, workout })
 		})
 		.catch((err) => {
-		  res.json({ success: false, error: err });
+			res.json({ success: false, error: err });
 		});
-	} else {
-		res.json({ success: false, error: "No exercise data provided." });
-	  }
-  });
-  
-
+	})
+	.catch((err) => {
+		res.json({ success: false, error: err });
+	});
+});
 
 
 
@@ -109,3 +72,4 @@ router.delete("/:exerciseId", (req, res) => {
 });
 
 module.exports = router;
+

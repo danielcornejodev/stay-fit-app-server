@@ -7,7 +7,9 @@ const exerciseSchema = new Schema(
     muscle: String,
     equipment: String,
     difficulty: String,
-    instructions: String
+    instructions: String,
+    sets: Number,
+    reps: Number
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

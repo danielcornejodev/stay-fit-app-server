@@ -1,13 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const Workout = require('../models/Workout.model');
-const Exercise = require('../models/Exercise.model')
+const Exercise = require('../models/Exercise.model');
+const User = require('../models/User.model');
 
 // CREATE POST
 router.post("/", (req, res) => {
+	
 	Workout.create(req.body)
 		.then((workout) => {
-			res.json({ success: true, workout });
+			const userID = req.body.owner._id;
+			User.findByIdAndUpdate(userID, {
+				$push: {workouts: workout}
+			  })
+			  .then((user) => {
+				res.json({ success: true, user });
+			  }).catch((err) => {
+				res.json({ success: false, error: err });
+			});
 		})
 		.catch((err) => {
 			res.json({ success: false, error: err });
@@ -15,14 +25,24 @@ router.post("/", (req, res) => {
 });
 
 // READ
-router.get("/", (req, res) => {
-	Workout.find()
-		.then((workouts) => {
-			res.json({ success: true, workouts });
-		})
-		.catch((err) => {
-			res.json({ success: false, error: err });
-		});
+router.get("/:theID", (req, res) => {
+	console.log(req.params.theID)
+	User.findById(req.params.theID).populate("workouts")
+	.then((theUser) =>{
+		res.json({ success: true, theUser });
+	})
+	.catch((err) => {
+		res.json({ success: false, error: err });
+	});
+
+
+	// Workout.find()
+	// 	.then((workouts) => {
+	// 		res.json({ success: true, workouts });
+	// 	})
+	// 	.catch((err) => {
+	// 		res.json({ success: false, error: err });
+	// 	});
 });
 
 // READ

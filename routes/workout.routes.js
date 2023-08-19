@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Workout = require('../models/Workout.model');
 const Exercise = require('../models/Exercise.model')
-const User = require('../models/User.model')
 
 // CREATE POST
 router.post("/", (req, res) => {

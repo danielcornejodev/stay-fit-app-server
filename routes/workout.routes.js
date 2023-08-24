@@ -59,39 +59,18 @@ router.put("/:workoutId", (req, res) => {
 });
 
 // DELETE
-// router.delete("/:workoutId/:userId", async (req, res) => {
-//     try {
-//         const workoutId = req.params.workoutId;
-//         const userId = req.params.userId;
+router.delete("/:workoutId/:userId", async (req, res) => {
+    const workoutId = req.params.workoutId;
+    const userId = req.params.userId;
 
-//         // Delete associated exercises
-//         const deleteExercisesResult = await Exercise.deleteMany({ workout: workoutId });
-//         console.log("Deleted exercises:", deleteExercisesResult);
-
-//         // Delete the workout itself
-//         const deleteWorkoutResult = await Workout.findByIdAndRemove(workoutId);
-//         console.log("Deleted workout:", deleteWorkoutResult);
-
-//         // Update user's workouts
-//         const updateUserResult = await User.updateOne(
-//             { _id: userId },
-//             {
-//                 $pull: { workouts: workoutId }
-//             }
-//         );
-//         console.log("Updated user:", updateUserResult);
-
-//         res.json({ success: true, message: "Successfully removed Workout and associated Exercises" });
-//     } catch (err) {
-//         console.error("Error:", err);
-//         res.json({ success: false, error: err });
-//     }
-// });
-
-router.delete("/:workoutId/:userId", async (req, res) => {	
     try {
-        const workoutId = req.params.workoutId;
-        const userId = req.params.userId;
+        // Delete the exercises
+        const workout = await Workout.findById(workoutId);
+		console.log('Exercises Array', workout.exercises);
+        for (const exerciseId of workout.exercises) {
+            await Exercise.findByIdAndRemove(exerciseId);
+        }
+        console.log("Deleted exercises");
 
         // Delete the workout itself
         const deleteWorkoutResult = await Workout.findByIdAndRemove(workoutId);
@@ -112,6 +91,8 @@ router.delete("/:workoutId/:userId", async (req, res) => {
         res.json({ success: false, error: err });
     }
 });
+
+
 
 
 

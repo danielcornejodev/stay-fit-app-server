@@ -34,7 +34,7 @@ module.exports = (app) => {
   };
 
   // Apply the middleware to handle OPTIONS requests for /auth/signup
-  app.options('/auth/signup', handleOptions);
+  app.options(handleOptions);
 
   //to resolve Vercel CORS error on login
   app.use(

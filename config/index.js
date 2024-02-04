@@ -56,9 +56,9 @@ module.exports = (app) => {
   //   })
   // );
 
-  // app.use(
-  //   cors(true)
-  // );
+  app.use(
+    cors(true)
+  );
 
   // app.use(
   //   session({

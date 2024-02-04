@@ -20,6 +20,15 @@ const FRONTEND_URL = process.env.ORIGIN || "http://localhost:3000";
 
 // Middleware configuration
 module.exports = (app) => {
+  //to resolve Vercel CORS error on login
+  app.use(
+    cors({
+      origin: FRONTEND_URL,
+      methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+      credentials: true, // Enable credentials (cookies, authorization headers) for cross-origin requests
+    })
+  );
+
   // Because this will be hosted on a server that will accept requests from outside and it will be hosted ona server with a `proxy`, express needs to know that it should trust that setting.
   // Services like Fly use something called a proxy and you need to add this to your server
   app.set("trust proxy", 1);

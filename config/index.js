@@ -23,7 +23,7 @@ module.exports = (app) => {
   //to resolve Vercel CORS error on login
   app.use(
     cors({
-      origin: FRONTEND_URL,
+      origin: `*`,
       methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
       credentials: true, // Enable credentials (cookies, authorization headers) for cross-origin requests
     })

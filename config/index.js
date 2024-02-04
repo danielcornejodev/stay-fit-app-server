@@ -20,6 +20,22 @@ const FRONTEND_URL = process.env.ORIGIN || "http://localhost:3000";
 
 // Middleware configuration
 module.exports = (app) => {
+
+  // Define a middleware to handle OPTIONS requests for /auth/signup
+  const handleOptions = (req, res, next) => {
+    // Set the CORS headers for the preflight request
+    res.setHeader('Access-Control-Allow-Origin', 'https://master--mellifluous-croquembouche-2918c7.netlify.app');
+    res.setHeader('Access-Control-Allow-Methods', 'POST');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Max-Age', '86400'); // 24 hours
+
+    // Respond with a 200 OK status code to indicate that the preflight request is allowed
+    res.status(200).end();
+  };
+
+  // Apply the middleware to handle OPTIONS requests for /auth/signup
+  app.options('/auth/signup', handleOptions);
+
   //to resolve Vercel CORS error on login
   app.use(
     cors({

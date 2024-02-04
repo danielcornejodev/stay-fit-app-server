@@ -23,7 +23,7 @@ module.exports = (app) => {
   //to resolve Vercel CORS error on login
   app.use(
     cors({
-      origin: `*`,
+      origin: [FRONTEND_URL],
       methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
       credentials: true, // Enable credentials (cookies, authorization headers) for cross-origin requests
     })
@@ -40,9 +40,9 @@ module.exports = (app) => {
   //   })
   // );
 
-  app.use(
-    cors(true)
-  );
+  // app.use(
+  //   cors(true)
+  // );
 
   // app.use(
   //   session({

@@ -24,7 +24,7 @@ module.exports = (app) => {
   // Define a middleware to handle OPTIONS requests for /auth/signup
   const handleOptions = (req, res, next) => {
     // Set the CORS headers for the preflight request
-    res.setHeader('Access-Control-Allow-Origin', 'https://master--mellifluous-croquembouche-2918c7.netlify.app/signup');
+    res.setHeader('Access-Control-Allow-Origin', 'https://master--mellifluous-croquembouche-2918c7.netlify.app');
     res.setHeader('Access-Control-Allow-Methods', 'POST');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     res.setHeader('Access-Control-Max-Age', '86400'); // 24 hours
@@ -39,7 +39,7 @@ module.exports = (app) => {
   //to resolve Vercel CORS error on login
   app.use(
     cors({
-      origin: "https://master--mellifluous-croquembouche-2918c7.netlify.app/signup",
+      origin: [FRONTEND_URL],
       methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
       credentials: true, // Enable credentials (cookies, authorization headers) for cross-origin requests
     })

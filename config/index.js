@@ -39,7 +39,7 @@ module.exports = (app) => {
   //to resolve Vercel CORS error on login
   app.use(
     cors({
-      origin: [FRONTEND_URL],
+      origin: "https://master--mellifluous-croquembouche-2918c7.netlify.app/signup",
       methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
       credentials: true, // Enable credentials (cookies, authorization headers) for cross-origin requests
     })

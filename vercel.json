@@ -1,8 +1,14 @@
 {
-    "rewrites": [
+    "builds": [
       {
         "source": "/(.*)",
         "destination": "/"
       }
-    ]
+    ],
+    "routes": [
+        {
+          "src": "/(.*)",
+          "destination": "/"
+        }
+      ]
   }

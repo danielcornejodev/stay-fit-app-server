@@ -21,30 +21,6 @@ const FRONTEND_URL = process.env.ORIGIN || "http://localhost:3000";
 // Middleware configuration
 module.exports = (app) => {
 
-  // Define a middleware to handle OPTIONS requests for /auth/signup
-  const handleOptions = (req, res, next) => {
-    // Set the CORS headers for the preflight request
-    res.setHeader('Access-Control-Allow-Origin', 'https://master--mellifluous-croquembouche-2918c7.netlify.app');
-    res.setHeader('Access-Control-Allow-Methods', 'POST');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.setHeader('Access-Control-Max-Age', '86400'); // 24 hours
-
-    // Respond with a 200 OK status code to indicate that the preflight request is allowed
-    res.status(200).end();
-  };
-
-  // Apply the middleware to handle OPTIONS requests for /auth/signup
-  app.options(handleOptions);
-
-  //to resolve Vercel CORS error on login
-  app.use(
-    cors({
-      origin: [FRONTEND_URL],
-      methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-      credentials: true, // Enable credentials (cookies, authorization headers) for cross-origin requests
-    })
-  );
-
   // Because this will be hosted on a server that will accept requests from outside and it will be hosted ona server with a `proxy`, express needs to know that it should trust that setting.
   // Services like Fly use something called a proxy and you need to add this to your server
   app.set("trust proxy", 1);

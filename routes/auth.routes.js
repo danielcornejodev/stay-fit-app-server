@@ -128,4 +128,13 @@ router.get("/verify", isAuthenticated, (req, res, next) => {
   res.status(200).json(req.payload);
 });
 
+// Handle OPTIONS requests for /auth/signup
+router.options("/signup", (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "POST");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+  res.status(200).send();
+});
+
+
 module.exports = router;

@@ -32,6 +32,15 @@ module.exports = (app) => {
     })
   );
 
+  // This is the most permissive CORS configuration, allowing all origins and credentials.
+  // This is useful for development but should be restricted in production.  
+  // app.use(
+  //   cors({
+  //     origin: true,
+  //     credentials: true,
+  //   })
+  // );
+
   // app.use(
   //   cors(true)
   // );

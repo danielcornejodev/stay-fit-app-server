@@ -14,7 +14,11 @@ router.post("/workouts/:theID/exercises/create", (req, res) => {
 		)
 		.then((workout) => {
 		//   req.flash('success', 'Workout Successfully Created')
-			res.json({ success: true, workout })
+			res.status(200).json({
+				success: true,
+				message: 'Exercise created and added to workout',
+				exercises: workout.exercises, // send the updated list directly
+			})
 		})
 		.catch((err) => {
 			res.json({ success: false, error: err });

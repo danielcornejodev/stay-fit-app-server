@@ -26,20 +26,20 @@ module.exports = (app) => {
   app.set("trust proxy", 1);
 
   // controls a very specific header to pass headers from the frontend
-  app.use(
-    cors({
-      origin: [FRONTEND_URL],
-    })
-  );
+  // app.use(
+  //   cors({
+  //     origin: [FRONTEND_URL],
+  //   })
+  // );
 
   // This is the most permissive CORS configuration, allowing all origins and credentials.
   // This is useful for development but should be restricted in production.  
-  // app.use(
-  //   cors({
-  //     origin: true,
-  //     credentials: true,
-  //   })
-  // );
+  app.use(
+    cors({
+      origin: true,
+      credentials: true,
+    })
+  );
 
   // app.use(
   //   cors(true)
